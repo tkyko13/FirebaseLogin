@@ -1,30 +1,31 @@
 <template>
   <div class="page">
     
-    <h1>My Loginテスト</h1>
+    <h1>indexページ</h1>
 
-    <Login />
+    <div v-for="page in pages">
+       <router-link v-bind:to="page.path">{{page.title}}</router-link>
+    </div>
 
-    <h3 v-if="user.login">
-      ログインに成功！
-    </h3>
-    <h3 class="title" v-else>
-      ログインしてね！
-    </h3>
   </div>
 </template>
 
 <script>
-import Login from "~/components/Login.vue";
 
 export default {
-  components: {
-    Login: Login,
+  data() {
+    return {
+      pages : [
+        {
+          title:'ログイン',
+          path:'/login'
+        },
+        {
+          title:'音声認識',
+          path:'/speech'
+        },
+      ]
+    };
   },
-  computed: {
-    user() {
-      return this.$store.getters["user"];
-    },
-  }
 };
 </script>
