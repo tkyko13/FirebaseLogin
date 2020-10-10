@@ -1,5 +1,6 @@
 import firebase from '~/plugins/firebase'
 
+// data保管庫
 export const state = () => ({
   user: {
     uid: '',
@@ -8,14 +9,17 @@ export const state = () => ({
   },
 })
 
+// stateの情報を取得
 export const getters = {
   user: state => {
     return state.user;
   }
 }
 
+// storeの上書き以外の処理や非同期通信
 export const actions = {
   login({ dispatch }, payload) {
+    // メールとパスワードでログイン
     console.log('login action');
     firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
       .then(user => {
@@ -26,7 +30,8 @@ export const actions = {
         alert(error);
       })
   },
-  loginGoogle({ dispatch }, payload) {
+  loginGoogle({ dispatch }) {
+    // Googleアカウントでログイン
     console.log('loginGoogle action');
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider)
@@ -40,6 +45,7 @@ export const actions = {
       });
   },
   checkLogin({ commit }) {
+    // ログインしているかどうかのチェック　ログインしていたらデータ追加
     firebase.auth().onAuthStateChanged((user) => {
       console.log(user);
       if (user) {
@@ -49,6 +55,7 @@ export const actions = {
     })
   },
   logout({ commit }) {
+    // ログアウト
     firebase.auth().signOut()
       .then(() => {
         console.log("ログアウトしました");
@@ -60,6 +67,7 @@ export const actions = {
   }
 }
 
+// stateの上書き(代入)
 export const mutations = {
   login(state, payload) {
     state.user.uid = payload.uid;

@@ -4,7 +4,7 @@
     <h1>ユーザーページ</h1>
 
     <h3 v-if="user.login">
-      
+      {{user.email}} でログイン中
     </h3>
     <h3 class="title" v-else>
       ログインしてね！

@@ -4,7 +4,7 @@
      v-if="user.login"
      class="text"
    >
-     {{ user }}
+     {{user.email}} でログイン中
      <button v-on:click="logout">ログアウト</button>
    </p>
    <div v-else>
@@ -23,6 +23,8 @@
 <script>
 export default {
  computed: {
+   // dataのように扱える
+   // dataを作る前処理が必要な際に利用
    user () {
      return this.$store.getters['user'];
    },
@@ -33,19 +35,24 @@ export default {
      password: '',
    }
  },
- created() {
+ mounted() {
+   // ログインしているかどうかのチェック　ログインしていたらデータ追加
    this.$store.dispatch('checkLogin');
  },
  methods : {
-   login (email, password) {
-     this.$store.dispatch('login', {email: this.email, password: this.password});
+   async login () {
+      // メールとパスワードでログイン
+      console.log('login action', this.email, this.password);
+      this.$store.dispatch('login', {email:this.email, password:this.password});
    },
    loginGoogle() {
-     this.$store.dispatch('loginGoogle');
+      // Googleアカウントでログイン
+      this.$store.dispatch('loginGoogle');
    },
    logout : function() {
+      // ログアウト
       this.$store.dispatch('logout');
-    }
+   }
  }
 }
 </script>
